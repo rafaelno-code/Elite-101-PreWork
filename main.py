@@ -19,7 +19,7 @@ class Chatbot:
                 option = int(input("Choose an option!(Enter a number): "))
                 catch_loop_exit = True
             except ValueError:
-                print("\nThat isn't a valid option!")
+                print("\nThat isn't a valid option!\n")
         match option:
             case 1: 
                 print("\nThis is case 1\n")
