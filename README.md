@@ -1,4 +1,4 @@
-# Python Starter oi oi oi
+# Python Starter
 
 Quickly get started with [Python](https://www.python.org/) using this starter! 
 
