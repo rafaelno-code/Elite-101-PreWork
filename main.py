@@ -9,7 +9,6 @@ class Chatbot:
         except ValueError: 
             print("That isn't a valid age!")
             #title command found on https://stackoverflow.com/questions/8347048/how-to-convert-string-to-title-case-in-python
-   
     print(f"Welcome {name.title()}, how can I help you today?\n")
     option = 0
     while(option != 5):
