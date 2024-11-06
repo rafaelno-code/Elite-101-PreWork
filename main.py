@@ -39,10 +39,10 @@ def info_collection(age: int):
         parent_person = Person(parent_name.title(), parent_age, str(parent_ssn), "")
     print("-------Your information is required-------")
     user_name = input("1. Full Name: ").lower()
-    while(True):
+    while True:
         try:
             user_ssn = int(input("2. Social Security(XXXXXXXXX): "))
-            if(len(str(user_ssn)) != 9):
+            if len(str(user_ssn)) != 9:
                 print("Enter the 9 digits in this format(XXXXXXXXX)")
                 continue
             break
@@ -56,29 +56,43 @@ def info_collection(age: int):
 #Display options and prompt the user to choose what type of bank account they want to create
 def choose_account():
     while True:
-        option = input("1. Checking Account\n2. Savings Account\nWhat type of account do you want? ")
+        option = input("\n1. Checking Account\n2. Savings Account\nWhat type of account do you want? ")
         if option.lower() == "checking account":
             return "checking account"
         elif option.lower() == "savings account":
             return "savings account"
         print("Not a valid option!")
 
-#Prints the accounts under the unique id generated for the user
-def print_accounts(account_list: list, id: str):
+#Verifies identity by asking for the user's generated ID
+def id_verify(account_list: list):
     chances = 5
-    for i in range(0 , 5):
-                security = input("What is your unique ID? ")
-                if security != id:
-                    chances -= 1
-                    print(f"{chances} attemps remaining")
-                else:
-                    break
-    print()
+    id = ""
+    while chances > 0:
+        security = input("What is your unique ID? ")
+        for j in range(0, len(account_list)):
+            if account_list[j].id == security:
+                id = security
+                break
+        if id != security:        
+            chances -= 1
+            print(f"{chances} attemps remaining")
+            continue
+        else: break
     if chances == 0:
         print("You could not verify your identity.")
-    else:
-        for i in range(0, len(account_list)):
-            print(f"{i+1}. {account_list[i]}")
+        return ""
+    return id
+
+def print_accounts(account_list: list, id: str):
+    print_list = []
+    for i in range(0, len(account_list)):
+        if id == account_list[i].id:
+            print_list.append(account_list[i])
+    print()
+    for i in range(0, len(print_list)):
+        print(f"{i+1}. {print_list[i]}")
+    return print_list
+    
 
 """
 Allows the user to verify that the information they have entered is correct
@@ -92,12 +106,13 @@ def info_verify(user, parent):
                 print(f"Your generated unique ID: {user.id}\n")
                 print(f"-------Parent Info-------\n{parent}, SSN: {parent.ssn}")
             print(f"\n Your generated unique ID: {user.id}\n")
-            print(f"-------User Info-------\n{user},SSN: {user.ssn}")
+            print(f"-------User Info-------\n{user}, SSN: {user.ssn}")
             verify = input("Is the information above correct? (Yes or No) ")
         elif verify.lower() != "no" or verify.lower() != "yes":
             print("Not a valid option!")
             continue
 
+#deposits or withdrawals the amount from the chosen account
 def withdrawal_or_deposit(choice: str, account):
     if choice == "deposit":
         amount = float(input("Enter how much would you like to deposit: "))
@@ -105,7 +120,7 @@ def withdrawal_or_deposit(choice: str, account):
         
     else:
         amount = float(input("Enter how much would you like to withdrawal: "))
-        amount.withdrawal(amount)
+        account.withdrawal(amount)
 
 
     
@@ -120,7 +135,9 @@ def main():
                 print("No accounts to be displayed\n")   
                 continue             
             else:
-                print_accounts(list_of_accounts, list_of_accounts[0].id)
+                correct_id = id_verify(list_of_accounts)
+                temp_list = print_accounts(list_of_accounts, correct_id)
+                if(correct_id == ""): continue
             while True:
                 print()
                 user_choice = input("Would you like to deposit or withdrawal into an account (yes or no): ").lower()
@@ -130,7 +147,11 @@ def main():
                         print("Not a valid option!")
                         continue
                     account = int(input("Which account (Enter the number that corresponds): "))
-                    withdrawal_or_deposit(w_or_d, list_of_accounts[account-1])
+                    try:
+                        withdrawal_or_deposit(w_or_d, temp_list[account-1])
+                    except IndexError:
+                        print("Not a vaild index!")
+                        continue
                     break
                 elif user_choice == "no":
                     break

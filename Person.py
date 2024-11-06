@@ -19,16 +19,18 @@ class Account(Person):
         self.account_type = account_type
         self.balance = balance
 
-    def withdrawal(self, amount: int):
+    def withdrawal(self, amount: float):
         if (amount > self.balance):
-            return "You don't have enough in your account!"
+             print("You don't have enough in your account!")
         self.balance -= amount
+        print("\nWithdrawn")
 
-    def deposit(self, amount: int):
+    def deposit(self, amount: float):
         self.balance += amount
+        print("\nDeposited")
 
     def __str__(self):
-        return f"Account Type: {self.account_type}, " + super().__str__() + f", Balance: {self.balance}"
+        return f"Account Type: {self.account_type}, " + super().__str__() + f", Balance: ${self.balance}"
 
 class Minor(Account):
 
