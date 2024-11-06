@@ -26,7 +26,7 @@ def info_collection(age: int):
                 break
             except ValueError:
                 print("Value Error, please enter an integer value!")
-        parent_person = Person(parent_name.title(), parent_age, str(parent_ssn))
+        parent_person = Person(parent_name.title(), parent_age, str(parent_ssn), "")
     print("-------Your information is required-------")
     user_name = input("1. Full Name: ")
     while(True):
@@ -38,7 +38,8 @@ def info_collection(age: int):
             break
         except ValueError:
             print("Value Error, please enter an integer value!")
-    user_person = Person(user_name.title(), age, str(user_ssn))
+    user_id = f"{user_name[0]}{str(user_ssn)[5: len(str(user_ssn))]}"
+    user_person = Person(user_name.title(), age, str(user_ssn), user_id)
     if age < 18:
         return user_person, parent_person
     return user_person
@@ -46,57 +47,61 @@ def info_collection(age: int):
 def choose_account():
     while True:
         option = input("1. Checking Account\n2. Savings Account\nWhat type of account do you want? ")
-        match option.lower():
-            case "checking account":
-                return "checking account"
-            case "savings account":
-                return "savings account"
-            case _:
-                print("Not a valid option!")
+        if option.lower() == "checking account":
+            return "checking account"
+        elif option.lower() == "savings account":
+            return "savings account"
+        print("Not a valid option!")
 
 def print_accounts(account_list: list):
     if len(account_list) == 0:
         print("No accounts to display!")
     for i in range(0, len(account_list)):
         print(f"{i+1}. {account_list[i]}")
+
+def info_verify(user, parent):
+    verify = "no"
+    while verify.lower() != "yes":
+        if verify == "no":
+            if user.age < 18:
+                print(f"Your generated unique ID: {user.id}\n")
+                print(f"-------Parent Info-------\n{parent}, SSN: {parent.ssn}")
+            print(f"\n Your generated unique ID: {user.id}\n")
+            print(f"-------User Info-------\n{user},SSN: {user.ssn}")
+            verify = input("Is the information above correct? (Yes or No) ")
+        elif verify.lower() != "no" or verify.lower() != "yes":
+            print("Not a valid option!")
+            continue
     
-
-
 def main():
     list_of_accounts = []
     print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?")
     while True:
         choice = choose_action()
-        match choice:
-            case 1: 
-                print("\n-------Account Display-------\n")
-                print_accounts(list_of_accounts)
-                print()
-
-            case 2:
-                while(True):
-                    try:
-                        age = int(input("\nHow old are you? "))
-                        if age < 0:
-                            continue
-                        break
-                    except ValueError: 
+        if choice == 1: 
+            print("\n-------Account Display-------\n")
+            print_accounts(list_of_accounts)
+            print()
+        elif choice == 2:
+            while(True):
+                try:
+                    age = int(input("\nHow old are you? "))
+                    if age < 0:
                         continue
-                verify = ""
-                while verify.lower() != "yes":
-                    if age < 18:
-                        user, parent = info_collection(age)
-                        print(f"Your generated unique ID: {user.id}\n")
-                        print(f"-------Parent Info-------\n{parent}\n-------User Info-------\n{user}")
-                    else:
-                        user = info_collection(age)
-                        print(f"-------User Info-------\n{user}")
-                    verify = input("Is the information above correct? (Yes or No) ")
-                    list_of_accounts.append(Account(user.name, user.age, user.ssn, choose_account().title(), 0))
-                    print()
-            case 3:
-                break
-            case _:
+                    break
+                except ValueError: 
+                    continue
+            if age < 18:
+                user, parent = info_collection(age)
+                info_verify(user, parent)
+            else:
+                user = info_collection(age)
+                info_verify(user, 2)
+            list_of_accounts.append(Account(user.name, user.age, user.ssn, user.id, choose_account().title(), 0))
+            print()
+        elif choice == 3:
+            break
+        else:
                 print("\nThis isn't a valid option!\n")
-        print("\nExiting, Goodbye!\n")
+    print("\nExiting, Goodbye!\n")
 main()
