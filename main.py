@@ -98,12 +98,14 @@ def info_verify(user, parent):
             print("Not a valid option!")
             continue
 
-def withdrawal_or_deposit(choice: str):
+def withdrawal_or_deposit(choice: str, account):
     if choice == "deposit":
         amount = float(input("Enter how much would you like to deposit: "))
+        account.deposit(amount)
         
     else:
         amount = float(input("Enter how much would you like to withdrawal: "))
+        amount.withdrawal(amount)
 
 
     
@@ -127,8 +129,8 @@ def main():
                     if w_or_d != "withdrawal" and w_or_d != "deposit":
                         print("Not a valid option!")
                         continue
-                    account = int(input)
-                    withdrawal_or_deposit(w_or_d)
+                    account = int(input("Which account (Enter the number that corresponds): "))
+                    withdrawal_or_deposit(w_or_d, list_of_accounts[account-1])
                     break
                 elif user_choice == "no":
                     break

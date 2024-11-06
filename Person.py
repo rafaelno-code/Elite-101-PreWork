@@ -25,7 +25,7 @@ class Account(Person):
         self.balance -= amount
 
     def deposit(self, amount: int):
-        self.banace += amount
+        self.balance += amount
 
     def __str__(self):
         return f"Account Type: {self.account_type}, " + super().__str__() + f", Balance: {self.balance}"
