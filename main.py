@@ -1,9 +1,11 @@
-import Person
+from Person import Person
+from Person import Account
+
 def choose_option():
     option = 0
     while(option != 3):
         print("Would you like to...\n1. View Your Accounts\n2. Create An Account\n3. Exit")
-        while(True):
+        while True:
             try:
                 option = int(input("Choose an option!(Enter a number): "))
                 return option
@@ -15,10 +17,10 @@ def info_collection(age):
         print("Parent Information Required!")
         parent_name = input("1. Parent Full Name: ")
         parent_age = input("2. Parent Age: ")
-        while(True):
+        while True:
             try:
                 parent_id = int(input("3. Parent Social Security(XXXXXXXXX): "))
-                if(len(str(parent_id)) != 9):
+                if len(str(parent_id)) != 9:
                     print("Enter the number in this format(XXXXXXXXX)")
                     continue
                 break
@@ -36,6 +38,10 @@ def info_collection(age):
             break
         except ValueError:
             print("Value Error, please enter an integer value!")
+    user_person = Person(user_name, age, user_id)
+    if age < 18:
+        return user_person, parent_person
+    return user_person
 
 def main():
     print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?")
@@ -53,7 +59,9 @@ def main():
                         break
                     except ValueError: 
                         continue
-                info_collection(age)
+                if age < 18:
+                    user, parent = info_collection(age)
+                user = info_collection(age)
             case 3:
                 print("\nExiting, Goodbye!\n")
                 break
