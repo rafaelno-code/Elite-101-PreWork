@@ -14,7 +14,7 @@ class Person:
 
 class Account(Person):
 
-    def __init__(self, name: str, age: int, ssn: str, id: str, account_type: str, balance: int):
+    def __init__(self, name: str, age: int, ssn: str, id: str, account_type: str, balance: float):
         super().__init__(name, age, ssn, id)
         self.account_type = account_type
         self.balance = balance
@@ -29,5 +29,14 @@ class Account(Person):
 
     def __str__(self):
         return f"Account Type: {self.account_type}, " + super().__str__() + f", Balance: {self.balance}"
+
+class Minor(Account):
+
+    def __init__(self, name: str, age: int, ssn: str, id: str , account_type: str, balance: float, parent: Person):
+        super().__init__(name, age, ssn, id, account_type, balance)
+        self.parent_name = parent.name
+    
+    def __str__(self):
+        return f"Parent Supervisor: {self.parent_name}" + super().__str__() + ", "
 
     

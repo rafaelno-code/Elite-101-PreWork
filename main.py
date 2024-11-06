@@ -1,5 +1,4 @@
-from Person import Person
-from Person import Account
+from Person import Person, Account, Minor
 
 def choose_action():
     option = 0
@@ -15,7 +14,7 @@ def choose_action():
 def info_collection(age: int):
     if age < 18:
         print("-------Parent Information Required-------")
-        parent_name = input("1. Parent Full Name: ")
+        parent_name = input("1. Parent Full Name: ").lower()
         parent_age = input("2. Parent Age: ")
         while True:
             try:
@@ -28,7 +27,7 @@ def info_collection(age: int):
                 print("Value Error, please enter an integer value!")
         parent_person = Person(parent_name.title(), parent_age, str(parent_ssn), "")
     print("-------Your information is required-------")
-    user_name = input("1. Full Name: ")
+    user_name = input("1. Full Name: ").lower()
     while(True):
         try:
             user_ssn = int(input("2. Social Security(XXXXXXXXX): "))
@@ -38,8 +37,7 @@ def info_collection(age: int):
             break
         except ValueError:
             print("Value Error, please enter an integer value!")
-    user_id = f"{user_name[0]}{str(user_ssn)[5: len(str(user_ssn))]}"
-    user_person = Person(user_name.title(), age, str(user_ssn), user_id)
+    user_person = Person(user_name.title(), age, str(user_ssn), f"{user_name[0]}{str(user_ssn)[5: len(str(user_ssn))]}")
     if age < 18:
         return user_person, parent_person
     return user_person
@@ -94,10 +92,11 @@ def main():
             if age < 18:
                 user, parent = info_collection(age)
                 info_verify(user, parent)
+                list_of_accounts.append(Minor(user.name, user.age, user.ssn, user.id, choose_account().title(), 0, parent))
             else:
                 user = info_collection(age)
                 info_verify(user, 2)
-            list_of_accounts.append(Account(user.name, user.age, user.ssn, user.id, choose_account().title(), 0))
+                list_of_accounts.append(Account(user.name, user.age, user.ssn, user.id, choose_account().title(), 0))
             print()
         elif choice == 3:
             break
