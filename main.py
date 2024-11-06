@@ -1,5 +1,9 @@
 from Person import Person, Account, Minor
 
+"""
+displays the main menu of actions the user can make and takes an 
+integer input to determine what the user will do
+"""
 def choose_action():
     option = 0
     while(option != 4):
@@ -11,6 +15,13 @@ def choose_action():
             except ValueError:
                 print("\nValue error, input an integer between 1 - 3!\n")
 
+"""
+collects information from the user (name and ssn)
+collects information from the user's parent if they are under 18
+generates a user id (first letter of first initial + last 4 letters of ssn)
+returns a Person object that represents the user
+returns two Person objects (user and parent) if user is under 18
+"""
 def info_collection(age: int):
     if age < 18:
         print("-------Parent Information Required-------")
@@ -42,6 +53,7 @@ def info_collection(age: int):
         return user_person, parent_person
     return user_person
 
+#Display options and prompt the user to choose what type of bank account they want to create
 def choose_account():
     while True:
         option = input("1. Checking Account\n2. Savings Account\nWhat type of account do you want? ")
@@ -51,6 +63,7 @@ def choose_account():
             return "savings account"
         print("Not a valid option!")
 
+#Prints the accounts under the unique id generated for the user
 def print_accounts(account_list: list, id: str):
     chances = 5
     for i in range(0 , 5):
@@ -67,6 +80,10 @@ def print_accounts(account_list: list, id: str):
         for i in range(0, len(account_list)):
             print(f"{i+1}. {account_list[i]}")
 
+"""
+Allows the user to verify that the information they have entered is correct
+If not it will allow the user to redo as many times as possible
+"""
 def info_verify(user, parent):
     verify = "no"
     while verify.lower() != "yes":
@@ -83,7 +100,7 @@ def info_verify(user, parent):
     
 def main():
     list_of_accounts = []
-    print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?")
+    print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?\n")
     while True:
         choice = choose_action()
         if choice == 1: 
@@ -114,6 +131,8 @@ def main():
         elif choice == 3:
             break
         else:
-                print("\nThis isn't a valid option!\n")
+            print("\nThis isn't a valid option!\n")
     print("\nExiting, Goodbye!\n")
-main()
+
+if __name__ == "__main__":
+    main()
