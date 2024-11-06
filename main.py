@@ -97,6 +97,15 @@ def info_verify(user, parent):
         elif verify.lower() != "no" or verify.lower() != "yes":
             print("Not a valid option!")
             continue
+
+def withdrawal_or_deposit(choice: str):
+    if choice == "deposit":
+        amount = float(input("Enter how much would you like to deposit: "))
+        
+    else:
+        amount = float(input("Enter how much would you like to withdrawal: "))
+
+
     
 def main():
     list_of_accounts = []
@@ -106,9 +115,26 @@ def main():
         if choice == 1: 
             print("\n-------Account Display-------\n")
             if len(list_of_accounts) == 0:
-                print("No accounts to be displayed")
+                print("No accounts to be displayed\n")   
+                continue             
             else:
                 print_accounts(list_of_accounts, list_of_accounts[0].id)
+            while True:
+                print()
+                user_choice = input("Would you like to deposit or withdrawal into an account (yes or no): ").lower()
+                if user_choice == "yes":
+                    w_or_d = input("Which one? (deposit or withdrawal) ").lower()
+                    if w_or_d != "withdrawal" and w_or_d != "deposit":
+                        print("Not a valid option!")
+                        continue
+                    account = int(input)
+                    withdrawal_or_deposit(w_or_d)
+                    break
+                elif user_choice == "no":
+                    break
+                else:
+                    print("Not a valid option!")
+                    continue
             print()
         elif choice == 2:
             while(True):
