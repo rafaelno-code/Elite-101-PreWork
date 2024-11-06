@@ -19,7 +19,7 @@ def info_collection(age: int):
         parent_age = input("2. Parent Age: ")
         while True:
             try:
-                parent_id = int(input("3. Parent Social Security(XXXXXXXXX): "))
+                parent_ssn = int(input("3. Parent Social Security(XXXXXXXXX): "))
                 if len(str(parent_ssn)) != 9:
                     print("Enter the number in this format(XXXXXXXXX)")
                     continue
@@ -31,7 +31,7 @@ def info_collection(age: int):
     user_name = input("1. Full Name: ")
     while(True):
         try:
-            user_id = int(input("2. Social Security(XXXXXXXXX): "))
+            user_ssn = int(input("2. Social Security(XXXXXXXXX): "))
             if(len(str(user_ssn)) != 9):
                 print("Enter the 9 digits in this format(XXXXXXXXX)")
                 continue
