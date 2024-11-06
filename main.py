@@ -72,6 +72,7 @@ def main():
                 print("\n-------Account Display-------\n")
                 print_accounts(list_of_accounts)
                 print()
+
             case 2:
                 while(True):
                     try:
@@ -93,8 +94,8 @@ def main():
                     list_of_accounts.append(Account(user.name, user.age, user.id, choose_account().title(), 0))
                     print()
             case 3:
-                print("\nExiting, Goodbye!\n")
                 break
             case _:
                 print("\nThis isn't a valid option!\n")
+            print("\nExiting, Goodbye!\n")
 main()
