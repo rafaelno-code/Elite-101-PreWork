@@ -1,9 +1,9 @@
 from Person import Person
 from Person import Account
 
-def choose_option():
+def choose_action():
     option = 0
-    while(option != 3):
+    while(option != 4):
         print("Would you like to...\n1. View Your Accounts\n2. Create An Account\n3. Exit")
         while True:
             try:
@@ -12,9 +12,9 @@ def choose_option():
             except ValueError:
                 print("\nValue error, input an integer between 1 - 3!\n")
 
-def info_collection(age):
+def info_collection(age: int):
     if age < 18:
-        print("Parent Information Required!")
+        print("-------Parent Information Required-------")
         parent_name = input("1. Parent Full Name: ")
         parent_age = input("2. Parent Age: ")
         while True:
@@ -26,8 +26,8 @@ def info_collection(age):
                 break
             except ValueError:
                 print("Value Error, please enter an integer value!")
-        parent_person = Person(parent_name, parent_age, parent_id)
-    print("Your information is required:")
+        parent_person = Person(parent_name.title(), parent_age, str(parent_id))
+    print("-------Your information is required-------")
     user_name = input("1. Full Name: ")
     while(True):
         try:
@@ -38,30 +38,60 @@ def info_collection(age):
             break
         except ValueError:
             print("Value Error, please enter an integer value!")
-    user_person = Person(user_name, age, user_id)
+    user_person = Person(user_name.title(), age, str(user_id))
     if age < 18:
         return user_person, parent_person
     return user_person
 
+def choose_account():
+    while True:
+        option = input("1. Checking Account\n2. Savings Account\nWhat type of account do you want? ")
+        match option.lower():
+            case "checking account":
+                return "checking account"
+            case "savings account":
+                return "savings account"
+            case _:
+                print("Not a valid option!")
+
+def print_accounts(account_list: list):
+    if len(account_list) == 0:
+        print("No accounts to display!")
+    for i in range(0, len(account_list)):
+        print(f"{i+1}. {account_list[i]}")
+    
+
+
 def main():
+    list_of_accounts = []
     print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?")
-    while(True):
-        choice = choose_option()
+    while True:
+        choice = choose_action()
         match choice:
             case 1: 
-                print("\nAccounts will be displayed here!\n")
+                print("\n-------Account Display-------\n")
+                print_accounts(list_of_accounts)
+                print()
             case 2:
                 while(True):
                     try:
-                        age = int(input("How old are you? "))
+                        age = int(input("\nHow old are you? "))
                         if age < 0:
                             continue
                         break
                     except ValueError: 
                         continue
-                if age < 18:
-                    user, parent = info_collection(age)
-                user = info_collection(age)
+                verify = ""
+                while verify.lower() != "yes":
+                    if age < 18:
+                        user, parent = info_collection(age)
+                        print(f"-------Parent Info-------\n{parent}\n-------User Info-------\n{user}")
+                    else:
+                        user = info_collection(age)
+                        print(f"-------User Info-------\n{user}")
+                    verify = input("Is the information above correct? (Yes or No) ")
+                    list_of_accounts.append(Account(user.name, user.age, user.id, choose_account().title(), 0))
+                    print()
             case 3:
                 print("\nExiting, Goodbye!\n")
                 break
