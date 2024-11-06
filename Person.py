@@ -37,6 +37,6 @@ class Minor(Account):
         self.parent_name = parent.name
     
     def __str__(self):
-        return f"Parent Supervisor: {self.parent_name}" + super().__str__() + ", "
+        return f"Parent Supervisor: {self.parent_name}\n\t" + super().__str__() + ", "
 
     

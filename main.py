@@ -51,11 +51,21 @@ def choose_account():
             return "savings account"
         print("Not a valid option!")
 
-def print_accounts(account_list: list):
-    if len(account_list) == 0:
-        print("No accounts to display!")
-    for i in range(0, len(account_list)):
-        print(f"{i+1}. {account_list[i]}")
+def print_accounts(account_list: list, id: str):
+    chances = 5
+    for i in range(0 , 5):
+                security = input("What is your unique ID? ")
+                if security != id:
+                    chances -= 1
+                    print(f"{chances} attemps remaining")
+                else:
+                    break
+    print()
+    if chances == 0:
+        print("You could not verify your identity.")
+    else:
+        for i in range(0, len(account_list)):
+            print(f"{i+1}. {account_list[i]}")
 
 def info_verify(user, parent):
     verify = "no"
@@ -78,7 +88,10 @@ def main():
         choice = choose_action()
         if choice == 1: 
             print("\n-------Account Display-------\n")
-            print_accounts(list_of_accounts)
+            if len(list_of_accounts) == 0:
+                print("No accounts to be displayed")
+            else:
+                print_accounts(list_of_accounts, list_of_accounts[0].id)
             print()
         elif choice == 2:
             while(True):
