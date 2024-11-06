@@ -122,65 +122,64 @@ def withdrawal_or_deposit(choice: str, account):
         amount = float(input("Enter how much would you like to withdrawal: "))
         account.withdrawal(amount)
 
-
-    
 def main():
     list_of_accounts = []
     print("Hello! I am the Wells Fargo Chatbot!\nHow can I help you today?\n")
     while True:
         choice = choose_action()
-        if choice == 1: 
-            print("\n-------Account Display-------\n")
-            if len(list_of_accounts) == 0:
-                print("No accounts to be displayed\n")   
-                continue             
-            else:
-                correct_id = id_verify(list_of_accounts)
-                temp_list = print_accounts(list_of_accounts, correct_id)
-                if(correct_id == ""): continue
-            while True:
-                print()
-                user_choice = input("Would you like to deposit or withdrawal into an account (yes or no): ").lower()
-                if user_choice == "yes":
-                    w_or_d = input("Which one? (deposit or withdrawal) ").lower()
-                    if w_or_d != "withdrawal" and w_or_d != "deposit":
+        match choice: 
+            case 1:
+                print("\n-------Account Display-------\n")
+                if len(list_of_accounts) == 0:
+                    print("No accounts to be displayed\n")   
+                    continue             
+                else:
+                    correct_id = id_verify(list_of_accounts)
+                    temp_list = print_accounts(list_of_accounts, correct_id)
+                    if(correct_id == ""): continue
+                while True:
+                    print()
+                    user_choice = input("Would you like to deposit or withdrawal into an account (yes or no): ").lower()
+                    if user_choice == "yes":
+                        w_or_d = input("Which one? (deposit or withdrawal) ").lower()
+                        if w_or_d != "withdrawal" and w_or_d != "deposit":
+                            print("Not a valid option!")
+                            continue
+                        account = int(input("Which account (Enter the number that corresponds): "))
+                        try:
+                            withdrawal_or_deposit(w_or_d, temp_list[account-1])
+                        except IndexError:
+                            print("Not a vaild index!")
+                            continue
+                        break
+                    elif user_choice == "no":
+                        break
+                    else:
                         print("Not a valid option!")
                         continue
-                    account = int(input("Which account (Enter the number that corresponds): "))
+                print()
+            case 2:
+                while(True):
                     try:
-                        withdrawal_or_deposit(w_or_d, temp_list[account-1])
-                    except IndexError:
-                        print("Not a vaild index!")
+                        age = int(input("\nHow old are you? "))
+                        if age < 0:
+                            continue
+                        break
+                    except ValueError: 
                         continue
-                    break
-                elif user_choice == "no":
-                    break
+                if age < 18:
+                    user, parent = info_collection(age)
+                    info_verify(user, parent)
+                    list_of_accounts.append(Minor(user.name, user.age, user.ssn, user.id, choose_account().title(), 0, parent))
                 else:
-                    print("Not a valid option!")
-                    continue
-            print()
-        elif choice == 2:
-            while(True):
-                try:
-                    age = int(input("\nHow old are you? "))
-                    if age < 0:
-                        continue
-                    break
-                except ValueError: 
-                    continue
-            if age < 18:
-                user, parent = info_collection(age)
-                info_verify(user, parent)
-                list_of_accounts.append(Minor(user.name, user.age, user.ssn, user.id, choose_account().title(), 0, parent))
-            else:
-                user = info_collection(age)
-                info_verify(user, 2)
-                list_of_accounts.append(Account(user.name, user.age, user.ssn, user.id, choose_account().title(), 0))
-            print()
-        elif choice == 3:
-            break
-        else:
-            print("\nThis isn't a valid option!\n")
+                    user = info_collection(age)
+                    info_verify(user, 2)
+                    list_of_accounts.append(Account(user.name, user.age, user.ssn, user.id, choose_account().title(), 0))
+                print()
+            case 3:
+                break
+            case _:
+                print("\nThis isn't a valid option!\n")
     print("\nExiting, Goodbye!\n")
 
 if __name__ == "__main__":
