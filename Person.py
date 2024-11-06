@@ -1,15 +1,16 @@
 class Person:
 
-    def __init__(self, name: str, age: int, id: str):
+    def __init__(self, name: str, age: int, ssn: str):
         self.name = name
         self.age = age
-        self.id = id
+        self.ssn = ssn
+        self.id = name[0].lower + ssn[7: len(ssn)]
 
     def id_format(self):
         return self.id[0: 3] + "-" + self.id[3: 5] + "-" + self.id[5: len(self.id)]
     
     def __str__(self):
-        return f"Name: {self.name}, Age: {self.age}, Personal ID: {self.id_format()}"
+        return f"Name: {self.name}, Age: {self.age}, Personal ID: {self.id}"
 
 class Account(Person):
 

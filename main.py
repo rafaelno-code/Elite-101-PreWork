@@ -20,25 +20,25 @@ def info_collection(age: int):
         while True:
             try:
                 parent_id = int(input("3. Parent Social Security(XXXXXXXXX): "))
-                if len(str(parent_id)) != 9:
+                if len(str(parent_ssn)) != 9:
                     print("Enter the number in this format(XXXXXXXXX)")
                     continue
                 break
             except ValueError:
                 print("Value Error, please enter an integer value!")
-        parent_person = Person(parent_name.title(), parent_age, str(parent_id))
+        parent_person = Person(parent_name.title(), parent_age, str(parent_ssn))
     print("-------Your information is required-------")
     user_name = input("1. Full Name: ")
     while(True):
         try:
             user_id = int(input("2. Social Security(XXXXXXXXX): "))
-            if(len(str(user_id)) != 9):
+            if(len(str(user_ssn)) != 9):
                 print("Enter the 9 digits in this format(XXXXXXXXX)")
                 continue
             break
         except ValueError:
             print("Value Error, please enter an integer value!")
-    user_person = Person(user_name.title(), age, str(user_id))
+    user_person = Person(user_name.title(), age, str(user_ssn))
     if age < 18:
         return user_person, parent_person
     return user_person
@@ -86,16 +86,17 @@ def main():
                 while verify.lower() != "yes":
                     if age < 18:
                         user, parent = info_collection(age)
+                        print(f"Your generated unique ID: {user.id}\n")
                         print(f"-------Parent Info-------\n{parent}\n-------User Info-------\n{user}")
                     else:
                         user = info_collection(age)
                         print(f"-------User Info-------\n{user}")
                     verify = input("Is the information above correct? (Yes or No) ")
-                    list_of_accounts.append(Account(user.name, user.age, user.id, choose_account().title(), 0))
+                    list_of_accounts.append(Account(user.name, user.age, user.ssn, choose_account().title(), 0))
                     print()
             case 3:
                 break
             case _:
                 print("\nThis isn't a valid option!\n")
-            print("\nExiting, Goodbye!\n")
+        print("\nExiting, Goodbye!\n")
 main()
