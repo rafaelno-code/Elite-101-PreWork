@@ -107,7 +107,7 @@ def info_verify(user, parent):
         print(f"\n Your generated unique ID: {user.id}\n")
         print(f"-------User Info-------\n{user}, SSN: {user.ssn}")
         verify = input("Is the information above correct? (Yes or No) ")
-        if verify == "no":
+        if verify.lower() == "no":
             info_collection(user.age)
         elif verify.lower() != "no" or verify.lower() != "yes":
             print("Not a valid option!")
