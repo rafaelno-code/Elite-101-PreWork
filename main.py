@@ -24,7 +24,7 @@ returns two Person objects (user and parent) if user is under 18
 """
 def info_collection(age: int):
     if age < 18:
-        print("-------Parent Information Required-------")
+        print("\n-------Parent Information Required-------")
         parent_name = input("1. Parent Full Name: ").lower()
         parent_age = input("2. Parent Age: ")
         while True:
@@ -37,7 +37,7 @@ def info_collection(age: int):
             except ValueError:
                 print("Value Error, please enter an integer value!")
         parent_person = Person(parent_name.title(), parent_age, str(parent_ssn), "")
-    print("-------Your information is required-------")
+    print("\n-------Your information is required-------")
     user_name = input("1. Full Name: ").lower()
     while True:
         try:
@@ -96,28 +96,29 @@ def print_accounts(account_list: list, id: str):
 
 """
 Allows the user to verify that the information they have entered is correct
-If not it will allow the user to redo as many times as possible
+If not it will allow the user to redo as many times as needed
 """
 def info_verify(user, parent):
     verify = "no"
     while verify.lower() != "yes":
+        if user.age < 18:
+            print(f"Your generated unique ID: {user.id}\n")
+            print(f"-------Parent Info-------\n{parent}, SSN: {parent.ssn}")
+        print(f"\n Your generated unique ID: {user.id}\n")
+        print(f"-------User Info-------\n{user}, SSN: {user.ssn}")
+        verify = input("Is the information above correct? (Yes or No) ")
         if verify == "no":
-            if user.age < 18:
-                print(f"Your generated unique ID: {user.id}\n")
-                print(f"-------Parent Info-------\n{parent}, SSN: {parent.ssn}")
-            print(f"\n Your generated unique ID: {user.id}\n")
-            print(f"-------User Info-------\n{user}, SSN: {user.ssn}")
-            verify = input("Is the information above correct? (Yes or No) ")
+            info_collection(user.age)
         elif verify.lower() != "no" or verify.lower() != "yes":
             print("Not a valid option!")
             continue
 
 #deposits or withdrawals the amount from the chosen account
 def withdrawal_or_deposit(choice: str, account):
+    
     if choice == "deposit":
         amount = float(input("Enter how much would you like to deposit: "))
-        account.deposit(amount)
-        
+        account.deposit(amount)    
     else:
         amount = float(input("Enter how much would you like to withdrawal: "))
         account.withdrawal(amount)
